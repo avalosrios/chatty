@@ -1,0 +1,28 @@
+extend type Query {
+    messages(first: Int, after: Int): MessageConnection
+}
+
+extend type Mutation {
+    addMessage(input: AddMessageInputData!): Message
+}
+
+input AddMessageInputData {
+    text: String!
+}
+
+type Message implements Node {
+    id: ID!
+    text: String!
+    user: User
+    createdAt: String
+}
+
+type MessageEdge {
+    node: Message
+    cursor: String
+}
+
+type MessageConnection {
+    edges: [MessageEdge]
+    pageInfo: PageInfo
+}

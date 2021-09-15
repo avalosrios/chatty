@@ -1,0 +1,26 @@
+extend type Query {
+    users(first: Int = 10, after: Int = 0): UserConnection
+}
+
+extend type Mutation {
+    setUser(input: SetUserInputData!): User
+}
+
+input SetUserInputData {
+    name: String!
+}
+
+type User implements Node {
+    id: ID!
+    name: String!
+}
+
+type UserEdge {
+    node: User
+    cursor: String
+}
+
+type UserConnection {
+    edges: [UserEdge]
+    pageInfo: PageInfo
+}
