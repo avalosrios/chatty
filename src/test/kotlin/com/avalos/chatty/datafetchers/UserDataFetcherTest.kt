@@ -2,14 +2,20 @@ package com.avalos.chatty.datafetchers
 
 import com.avalos.chatty.generated.client.UsersGraphQLQuery
 import com.avalos.chatty.generated.client.UsersProjectionRoot
+import com.avalos.chatty.generated.types.User
+import com.avalos.chatty.services.UserService
 import com.netflix.graphql.dgs.DgsQueryExecutor
 import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration
 import com.netflix.graphql.dgs.client.GraphQLResponse
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.verify
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -19,7 +25,16 @@ internal class UserDataFetcherTest {
     @Autowired
     lateinit var dgsQueryExecutor: DgsQueryExecutor
 
-    // TODO: Add a service and mock responses
+    @MockkBean
+    lateinit var userService: UserService
+
+    @BeforeEach
+    fun beforeEach() {
+        val mockUsers = listOf(
+            User(id = "1", name = "test")
+        )
+        every { userService.getUsers(any(), any()) } returns mockUsers
+    }
 
     @Test
     fun users() {
@@ -39,5 +54,7 @@ internal class UserDataFetcherTest {
         val response = GraphQLResponse(context.jsonString())
         val name = response.extractValue<String>("data.users.edges[0].node.name")
         Assertions.assertThat(name).contains("test")
+
+        verify { userService.getUsers(10, 0) }
     }
 }
