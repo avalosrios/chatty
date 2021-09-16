@@ -2,14 +2,21 @@ package com.avalos.chatty.datafetchers
 
 import com.avalos.chatty.generated.client.MessagesGraphQLQuery
 import com.avalos.chatty.generated.client.MessagesProjectionRoot
+import com.avalos.chatty.generated.types.Message
+import com.avalos.chatty.services.MessageService
 import com.netflix.graphql.dgs.DgsQueryExecutor
 import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration
 import com.netflix.graphql.dgs.client.GraphQLResponse
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.verify
+import org.aspectj.lang.annotation.Before
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
@@ -19,7 +26,16 @@ internal class MessageDataFetcherTest {
     @Autowired
     lateinit var dgsQueryExecutor: DgsQueryExecutor
 
-    // TODO: Add a service and mock responses
+    @MockkBean
+    lateinit var messageService: MessageService
+
+    @BeforeEach
+    fun beforeEach() {
+        val mockkMessages = listOf(
+            Message(id = "1", text = "test"),
+        )
+        every { messageService.getMessages(any(), any()) } returns mockkMessages
+    }
 
     @Test
     fun messages() {
@@ -39,5 +55,7 @@ internal class MessageDataFetcherTest {
         val response = GraphQLResponse(context.jsonString())
         val text = response.extractValue<String>("data.messages.edges[0].node.text")
         Assertions.assertThat(text).contains("test")
+
+        verify { messageService.getMessages(10, 0) }
     }
 }

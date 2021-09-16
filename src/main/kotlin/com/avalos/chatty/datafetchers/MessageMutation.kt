@@ -5,12 +5,13 @@ import com.netflix.graphql.dgs.DgsMutation
 import com.avalos.chatty.generated.DgsConstants
 import com.avalos.chatty.generated.types.AddMessageData
 import com.avalos.chatty.generated.types.Message
+import com.avalos.chatty.services.MessageService
 import com.netflix.graphql.dgs.InputArgument
 
 @DgsComponent
-class MessageMutation {
+class MessageMutation(private val messageService: MessageService) {
     @DgsMutation(field = DgsConstants.MUTATION.AddMessage)
     fun addMessage(@InputArgument("input") input: AddMessageData): Message {
-        return Message(id = "1", text = input.text)
+        return messageService.create(input)
     }
 }
