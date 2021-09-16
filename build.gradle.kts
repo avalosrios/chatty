@@ -54,7 +54,7 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
     generateClient = true
-    packageName = "com.petme.petmeapi.generated"
+    packageName = "com.avalos.chatty.generated"
     language = "kotlin"
 }
 
