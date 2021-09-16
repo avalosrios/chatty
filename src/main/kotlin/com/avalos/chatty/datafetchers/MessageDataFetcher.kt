@@ -18,7 +18,7 @@ class MessageDataFetcher {
             Message(id = "2", text = "b"),
             Message(id = "3", text = "c")
         )
-        val edges = messages.mapIndexed { idx, msg -> DefaultEdge(msg, DefaultConnectionCursor(idx.toString()))}
+        val edges = messages.mapIndexed { idx, msg -> DefaultEdge(msg, DefaultConnectionCursor(idx.toString())) }
         val hasNextPage = true // TODO: Make sure we calculate this one
         return DefaultConnection(
             edges,
