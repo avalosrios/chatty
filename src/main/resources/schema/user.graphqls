@@ -3,10 +3,10 @@ extend type Query {
 }
 
 extend type Mutation {
-    setUser(input: SetUserInputData!): User
+    setUser(input: SetUserData!): User
 }
 
-input SetUserInputData {
+input SetUserData {
     name: String!
 }
 

@@ -3,10 +3,10 @@ extend type Query {
 }
 
 extend type Mutation {
-    addMessage(input: AddMessageInputData!): Message
+    addMessage(input: AddMessageData!): Message
 }
 
-input AddMessageInputData {
+input AddMessageData {
     text: String!
 }
 
