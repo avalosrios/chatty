@@ -16,10 +16,14 @@ class MessageDataFetcher(private val messageService: MessageService) {
         val after = dfe.arguments["after"] as Int? ?: 0
         val messages = messageService.getMessages(first, after)
         val edges = messages.mapIndexed { idx, msg -> DefaultEdge(msg, DefaultConnectionCursor(idx.toString())) }
-        val hasNextPage = true // TODO: Make sure we calculate this one
+        val hasPreviousPage = after > 0 // TODO: this is not accurate we need to implement pagination
+        val hasNextPage = edges.isNotEmpty() // TODO: Make sure we calculate this one
+        val startCursor = if (edges.isNotEmpty()) edges[0].cursor else null
+        val endCursor = if (edges.isNotEmpty()) edges[messages.size - 1].cursor else null
+        val pageInfo = DefaultPageInfo(startCursor, endCursor, hasPreviousPage, hasNextPage)
         return DefaultConnection(
             edges,
-            DefaultPageInfo(edges[0].cursor, edges[messages.size - 1].cursor, after > 0, hasNextPage)
+            pageInfo,
         )
     }
 }

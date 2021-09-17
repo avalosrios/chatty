@@ -2,6 +2,7 @@ package com.avalos.chatty.services
 
 import com.avalos.chatty.generated.types.AddMessageData
 import com.avalos.chatty.generated.types.Message
+import com.avalos.chatty.repositories.MessageRepository
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.assertj.core.api.Assertions.assertThat
@@ -20,8 +21,17 @@ internal class DefaultMessageServiceTest {
     @Autowired
     private lateinit var service: MessageService
 
+    @MockkBean
+    private lateinit var messageRepository: MessageRepository
+
     @BeforeEach
     fun beforeEach() {
+        val mockMessage = com.avalos.chatty.entities.Message(
+            id = "1",
+            text = "test"
+        )
+        every { messageRepository.findAll() } returns listOf(mockMessage)
+        every { messageRepository.save(any()) } returns mockMessage
     }
 
     @Test

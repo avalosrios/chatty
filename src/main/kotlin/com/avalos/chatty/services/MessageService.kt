@@ -1,35 +1,31 @@
 package com.avalos.chatty.services
 
+import com.avalos.chatty.entities.Message
 import com.avalos.chatty.generated.types.AddMessageData
-import com.avalos.chatty.generated.types.Message
+import com.avalos.chatty.repositories.MessageRepository
 import org.springframework.stereotype.Service
-import java.util.*
 import javax.transaction.Transactional
+import com.avalos.chatty.generated.types.Message as GraphQLMessage
 
 interface MessageService {
-    fun getMessages(first: Int, after: Int): List<Message>
-    fun create(input: AddMessageData): Message
+    fun getMessages(first: Int, after: Int): List<GraphQLMessage>
+    fun create(input: AddMessageData): GraphQLMessage
 }
 
 @Service
 @Transactional
-class DefaultMessageService(): MessageService {
-    val allMessages = mutableListOf(
-        Message(id = "1", text = "test"),
-    )
-
-    override fun getMessages(first: Int, after: Int): List<Message> {
-        // TODO: add pagination logic
-        return allMessages
+class DefaultMessageService(
+    private val messageRepository: MessageRepository,
+): MessageService {
+    override fun getMessages(first: Int, after: Int): List<GraphQLMessage> {
+        // TODO: implement pagination
+        return messageRepository.findAll().map { message ->  message.toGraphQL() }
     }
 
-    override fun create(input: AddMessageData): Message {
+    override fun create(input: AddMessageData): GraphQLMessage {
         val message = Message(
-            id = UUID.randomUUID().toString(),
             text = input.text
         )
-        allMessages.add(message)
-        return message
+        return messageRepository.save(message).toGraphQL()
     }
-
 }
