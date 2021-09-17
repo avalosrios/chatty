@@ -3,10 +3,30 @@ import {
     createHttpLink, gql,
     InMemoryCache,
     makeVar,
-    NormalizedCacheObject,
+    NormalizedCacheObject, split,
 } from '@apollo/client';
+import {WebSocketLink} from '@apollo/client/link/ws';
+import {getMainDefinition} from '@apollo/client/utilities';
 
-const httpLink = createHttpLink({uri:'http://localhost:8080/graphql' })
+const wsLink = new WebSocketLink({
+    uri: 'ws://localhost:8080/subscriptions',
+    options: {
+        reconnect: true,
+    },
+});
+const httpLink = createHttpLink({uri:'http://localhost:8080/graphql' });
+
+const splitLink = split(
+  ({ query }) => {
+      const definition = getMainDefinition(query);
+      return(
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
+  },
+  wsLink,
+  httpLink,
+);
 
 export const currentUser = makeVar<string>('');
 
@@ -31,7 +51,7 @@ export const cache = new InMemoryCache({
 });
 
 const apolloClient: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-    link: httpLink,
+    link: splitLink,
     cache: cache,
     headers: {},
     typeDefs: typeDefs,

@@ -1,7 +1,7 @@
 import {useMutation} from '@apollo/client';
 import {Box, Button, Form, FormField, TextArea} from 'grommet';
 import React, {useState} from 'react';
-import {ADD_MESSAGE, GET_MESSAGES} from '../queries/message.queries';
+import {ADD_MESSAGE} from '../queries/message.queries';
 import {AddMessage} from '../queries/types/AddMessage';
 
 interface SendMessageFormProps {
@@ -10,13 +10,7 @@ interface SendMessageFormProps {
 
 export const SendMessageForm = ({ userID }: SendMessageFormProps) => {
   const [message, setMessage] = useState('');
-  // TODO: Refetching is not the optimal solution, we might want to use subscriptions for this
-  const [addMessage, { error: messageError }] = useMutation<AddMessage>(ADD_MESSAGE, {
-    refetchQueries: [
-      GET_MESSAGES,
-      'GetMessages',
-    ]
-  });
+  const [addMessage, { error: messageError }] = useMutation<AddMessage>(ADD_MESSAGE);
 
   if (messageError) return (<div>`Error! ${messageError.message}`</div>);
 
