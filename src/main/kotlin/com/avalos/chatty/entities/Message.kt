@@ -11,27 +11,31 @@ import javax.persistence.*
 
 @Table(name = "messages")
 @Entity
-class Message(
+open class Message(
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
         name = "UUID",
         strategy = "org.hibernate.id.UUIDGenerator",
     )
-    var id: String? = null,
+    open var id: String? = null,
 
     @Column(name = "text", nullable = false, columnDefinition="TEXT")
-    var text: String,
+    open var text: String,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    open var user: User,
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    var createdAt: LocalDateTime? = LocalDateTime.now(),
+    open var createdAt: LocalDateTime? = LocalDateTime.now(),
 ) {
     fun toGraphQL(): Message {
         return Message(
             id = id.toString(),
             text = text,
-            createdAt = OffsetDateTime.of(createdAt, ZoneOffset.UTC).format(DateTimeFormatter.ISO_DATE),
+            createdAt = DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(createdAt),
         )
     }
 }

@@ -12,6 +12,6 @@ import com.netflix.graphql.dgs.InputArgument
 class MessageMutation(private val messageService: MessageService) {
     @DgsMutation(field = DgsConstants.MUTATION.AddMessage)
     fun addMessage(@InputArgument("input") input: AddMessageData): Message {
-        return messageService.create(input)
+        return messageService.create(input).toGraphQL()
     }
 }

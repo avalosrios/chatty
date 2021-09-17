@@ -16,7 +16,7 @@ class UserDataFetcher(private val userService: UserService) {
         val first = dfe.arguments["first"] as Int? ?: 10
         val after = dfe.arguments["after"] as Int? ?: 0
 
-        val users = userService.getUsers(first, after)
+        val users = userService.getUsers(first, after).map { user -> user.toGraphQL() }
         val edges = users.mapIndexed { idx, msg -> DefaultEdge(msg, DefaultConnectionCursor(idx.toString())) }
         val startCursor = if (edges.isNotEmpty()) edges[0].cursor else null
         val endCursor = if (edges.isNotEmpty()) edges[users.size - 1].cursor else null

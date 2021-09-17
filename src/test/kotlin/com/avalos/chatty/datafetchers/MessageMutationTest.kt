@@ -11,14 +11,15 @@ import com.netflix.graphql.dgs.client.GraphQLResponse
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
+import io.mockk.mockk
 import io.mockk.verify
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import com.avalos.chatty.entities.Message as EntitiesMessage
 
 @SpringBootTest(classes = [DgsAutoConfiguration::class, MessageMutation::class])
 internal class MessageMutationTest {
@@ -31,14 +32,15 @@ internal class MessageMutationTest {
 
     @BeforeEach
     fun beforeEach() {
-        val mockMessage = Message(id = "1", text = "test")
+        val mockMessage = EntitiesMessage(id = "1", text = "test", user = mockk())
         every { messageService.create(any()) } returns mockMessage
     }
 
     @Test
     fun addMessage() {
         val input = AddMessageData(
-            text = "test"
+            text = "test",
+            userID = "2",
         )
         val graphQLQueryRequest =
             GraphQLQueryRequest(
