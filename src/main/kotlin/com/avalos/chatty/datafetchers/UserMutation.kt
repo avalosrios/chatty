@@ -12,6 +12,6 @@ import com.netflix.graphql.dgs.InputArgument
 class UserMutation(private val userService: UserService) {
     @DgsMutation(field = DgsConstants.MUTATION.SetUser)
     fun setUser(@InputArgument("input") input: SetUserData): User {
-        return userService.create(input)
+        return userService.create(input).toGraphQL()
     }
 }

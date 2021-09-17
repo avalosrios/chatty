@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import com.avalos.chatty.entities.User as EntitiesUser
 
 @SpringBootTest(classes = [DgsAutoConfiguration::class, UserMutation::class])
 internal class UserMutationTest {
@@ -31,7 +32,7 @@ internal class UserMutationTest {
 
     @BeforeEach
     fun beforeEach() {
-        val mockUser = User(id = "1", name = "test")
+        val mockUser = EntitiesUser(id = "1", name = "test")
         every { userService.create(any()) } returns mockUser
     }
 

@@ -15,14 +15,17 @@ open class User(
         name = "UUID",
         strategy = "org.hibernate.id.UUIDGenerator",
     )
-    var id: String? = null,
+    open var id: String? = null,
 
     @Column(name = "name", nullable = false, unique = true)
-    var name: String,
+    open var name: String,
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    open var messages: MutableList<Message>? = mutableListOf(),
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    var createdAt: LocalDateTime? = LocalDateTime.now(),
+    open var createdAt: LocalDateTime? = LocalDateTime.now(),
 ) {
     fun toGraphQL(): User {
         return User(

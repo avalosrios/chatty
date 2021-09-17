@@ -8,13 +8,14 @@ extend type Mutation {
 
 input AddMessageData {
     text: String!
+    userID: ID!
 }
 
 type Message implements Node {
     id: ID!
     text: String!
     user: User
-    createdAt: String
+    createdAt: String!
 }
 
 type MessageEdge {

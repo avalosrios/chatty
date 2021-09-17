@@ -4,13 +4,12 @@ import com.avalos.chatty.entities.User
 import com.avalos.chatty.generated.types.SetUserData
 import com.avalos.chatty.repositories.UserRepository
 import org.springframework.stereotype.Service
-import java.util.*
 import javax.transaction.Transactional
-import com.avalos.chatty.generated.types.User as GraphQLUser
+
 
 interface UserService {
-    fun getUsers(first: Int, after: Int): List<GraphQLUser>
-    fun create(input: SetUserData): GraphQLUser
+    fun getUsers(first: Int, after: Int): List<User>
+    fun create(input: SetUserData): User
 }
 
 @Service
@@ -18,12 +17,12 @@ interface UserService {
 class DefaultUserService(
     private val userRepository: UserRepository,
 ): UserService {
-    override fun getUsers(first: Int, after: Int): List<GraphQLUser> {
+    override fun getUsers(first: Int, after: Int): List<User> {
         // TODO: add pagination logic
-        return userRepository.findAll().map { user -> user.toGraphQL() }
+        return userRepository.findAll()
     }
 
-    override fun create(input: SetUserData): GraphQLUser {
+    override fun create(input: SetUserData): User {
         // check if we have a user with the same name
         var user = userRepository.findOneByName(input.name)
         if (user == null) {
@@ -31,6 +30,6 @@ class DefaultUserService(
                 name = input.name
             )
         }
-        return userRepository.save(user).toGraphQL()
+        return userRepository.save(user)
     }
 }
