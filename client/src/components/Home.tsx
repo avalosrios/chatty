@@ -20,7 +20,7 @@ export const Home = () => {
           Chatty
         </Heading>
       </AppBar>
-      <Box fill align={'center'} justify={'center'}>
+      <Box fill align={'center'} margin={'medium'}>
         { renderContent() }
       </Box>
     </>
