@@ -6,6 +6,10 @@ type Mutation {
     _: String
 }
 
+type Subscription {
+    _: String
+}
+
 interface Node {
     id: ID!
 }

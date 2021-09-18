@@ -20,7 +20,6 @@ interface MessageProps {
 
 export const Message = ({ message, userID }: MessageProps) => {
   const isOwnMessage: Boolean = userID === message.userID;
-  console.log('isOwn', isOwnMessage);
   const displayName = isOwnMessage ? 'You' : message.userName;
   const customBg = isOwnMessage ? '#F1FFFA' : 'light-1';
   return(
