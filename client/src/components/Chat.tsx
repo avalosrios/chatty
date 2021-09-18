@@ -36,7 +36,15 @@ export const Chat = () => {
     >
       <Box direction={'column'} overflow={'scroll'}>
         { data?.messages?.edges?.map( (edge) => (
-          edge?.node && <Message message={edge.node} userID={userQuery?.currentUser || ''}/>
+          edge?.node && <Message
+              message={{
+                id: edge.node.id,
+                text: edge.node.text,
+                userName: edge.node.user?.name || '',
+                userID: edge.node.user?.id || '',
+                createdAt: edge.node.createdAt,
+              }}
+              userID={userQuery?.currentUser || ''}/>
         )) }
         <div ref={messagesEndRef} />
       </Box>

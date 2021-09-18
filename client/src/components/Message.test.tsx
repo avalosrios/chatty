@@ -5,9 +5,16 @@ import {Message} from './Message';
 
 describe('Message', () => {
   it('renders', () => {
+    const mockMessage = {
+      id: 'test',
+      text: 'test',
+      createdAt: Date().toString(),
+      userName: 'test',
+      userID: 'user',
+    };
     render(
       <MockedProvider mocks={[]} addTypename={false}>
-        <Message/>
+        <Message message={mockMessage} userID={'test'}/>
       </MockedProvider>
     )
   });
