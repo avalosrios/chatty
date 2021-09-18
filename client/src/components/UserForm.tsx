@@ -36,7 +36,7 @@ export const UserForm = () => {
         }}
       >
         <FormField label={'Name'} name={'name'}>
-          <TextInput name={'name'}/>
+          <TextInput name={'name'} required/>
         </FormField>
         <Box direction="row" justify={'center'} margin={{ top: 'medium' }}>
           <Button type={'submit'} label={'Go!'} primary/>
