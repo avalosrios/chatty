@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface AddMessageData {
+  text: string;
+  userID: string;
+}
+
 export interface SetUserData {
   name: string;
 }

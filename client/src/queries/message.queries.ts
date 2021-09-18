@@ -18,3 +18,12 @@ export const GET_MESSAGES = gql`
         }
     }
 `;
+
+export const ADD_MESSAGE = gql`
+    mutation AddMessage($messageData: AddMessageData!) {
+        addMessage(input: $messageData) {
+            id
+            text
+        }
+    }
+`;
