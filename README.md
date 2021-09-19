@@ -50,6 +50,7 @@ improves the developer experience, while making it harder to introduce unexpecte
 it can also be used as local state storage, the main benefit on bigger apps is that objects can be retrieved from the 
 cache making only the absolutely necessary http requests to the server.
 - H2 DB: For keeping it simple. Given more time I would love to connect it with a postgres DB when running on "prod".
+- Grommet: Component library that helps speeding up development, providing accessibility, modularity and responsiveness.
 
 ### Known constraints/limitations
 
@@ -73,3 +74,4 @@ responses, and make a better use of resources.
 - Allow multiple (chat) threads a user can join, public/private threads would be nice too.
 - Friend list.
 - Error messages, have a consistent way for displaying error messages, alerts, etc.
+- Setup CI/CD.
