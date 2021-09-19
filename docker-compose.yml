@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  app-server:
+    image: chatty:0.0.1-SNAPSHOT
+    container_name: backend
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - backend
+      - frontend
+  app-client:
+    build:
+      context: client
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URI: 127.0.0.1:8080
+    container_name: app-client
+    ports:
+      - "3000:80"
+    restart: always
+    depends_on:
+      - app-server
+    networks:
+      - frontend
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+  frontend:

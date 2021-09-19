@@ -8,13 +8,17 @@ import {
 import {WebSocketLink} from '@apollo/client/link/ws';
 import {getMainDefinition} from '@apollo/client/utilities';
 
+const baseUri = process.env.REACT_APP_API_URI;
+
 const wsLink = new WebSocketLink({
-    uri: 'ws://localhost:8080/subscriptions',
+    uri: `ws://${baseUri}/subscriptions`,
     options: {
         reconnect: true,
     },
 });
-const httpLink = createHttpLink({uri:'http://localhost:8080/graphql' });
+const httpLink = createHttpLink({
+    uri: `http://${baseUri}/graphql`,
+});
 
 const splitLink = split(
   ({ query }) => {
