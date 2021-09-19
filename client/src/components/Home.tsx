@@ -14,7 +14,7 @@ export const Home = () => {
   };
 
   return(
-    <>
+    <Box fill>
       <AppBar>
         <Heading level={3} margin={'none'}>
           Chatty
@@ -23,6 +23,6 @@ export const Home = () => {
       <Box fill align={'center'} margin={'medium'}>
         { renderContent() }
       </Box>
-    </>
+    </Box>
   )
 };

@@ -29,7 +29,7 @@ export const SendMessageForm = ({ userID }: SendMessageFormProps) => {
         }}
       >
         <Box direction="row" justify="between" margin={{ top: 'medium' }} gap={'small'}>
-          <Box border={{ color: 'brand', size: 'medium' }} round={'xsmall'}>
+          <Box border={{ color: 'neutral-3', size: 'small' }} round={'xsmall'}>
             <FormField labe={'Message'} name={'text'} required>
               <TextArea
                 name={'text'}
@@ -38,11 +38,12 @@ export const SendMessageForm = ({ userID }: SendMessageFormProps) => {
                 fill
                 plain
                 resize={false}
+                focusIndicator={false}
               />
             </FormField>
           </Box>
           <Box direction={'row'}>
-            <Button type={'submit'} label={'Send'} primary/>
+            <Button type={'submit'} label={'Send'} primary fill color={'neutral-3'}/>
           </Box>
         </Box>
       </Form>
