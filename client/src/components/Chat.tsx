@@ -6,6 +6,7 @@ import {CurrentUser} from '../queries/types/CurrentUser';
 import {GetMessages} from '../queries/types/GetMessages';
 import {MessageAdded} from '../queries/types/messageAdded';
 import {CURRENT_USER} from '../queries/user.queries';
+import {Loading} from './Loading';
 import {Message} from './Message';
 import {SendMessageForm} from './SendMessageForm';
 
@@ -28,8 +29,8 @@ export const Chat = () => {
     scrollToBottom();
   }, [data]);
 
-  if (loading) return (<div>'Loading ...'</div>);
-  if (error) return (<div>`Error! ${error.message}`</div>);
+  if (loading) return (<Loading/>);
+  if (error) return (<div>Error! ${error.message}</div>);
   return(
     <Box
       direction={'column'}

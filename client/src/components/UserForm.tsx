@@ -4,6 +4,7 @@ import {Box, Button, Form, FormField, TextInput} from 'grommet';
 import {SetUser} from '../queries/types/SetUser';
 import {SET_USER} from '../queries/user.queries';
 import {currentUser} from '../shared/apollo-client';
+import {Loading} from './Loading';
 
 const defaultValue  = {
   name: '',
@@ -13,8 +14,8 @@ export const UserForm = () => {
   const [setUser, { loading, error}] = useMutation<SetUser>(SET_USER);
   const [value, setValue] = useState(defaultValue);
 
-  if (loading) return (<div>'Loading ...'</div>);
-  if (error) return (<div>`Error! ${error.message}`</div>);
+  if (loading) return (<Loading/>);
+  if (error) return (<div>Error! ${error.message}</div>);
 
   return(
     <Box width={'medium'}>
